@@ -6,18 +6,19 @@ const button = document.querySelector('#get-joke');
 button.addEventListener('click', function(){
     getRandomJoke();
 })
-// el codigo asíncrono puede ser gestionado dentro de una funcion con la directiva 'async'
 
- async function getRandomJoke(){
+function getRandomJoke(){
     const ajax = new XMLHttpRequest;
     const url = 'https://api.chucknorris.io/jokes/random'
-// la silectiva 'await' espera a que se acabe la funcion asincrona
-//hasta que no se acabe no se ejecutará la siguiente instrucción
+//utiliza sistema de promesas: fetch
 
-    let response = await fetch(url)
-    let data = await response.json()
-    updateDOM(data)
-    
+    fetch(url).
+    then(response => response.json())
+    then(data => jokeDIV.innerHTML = data.value)
+    catch(error => console.log(error))
+
+    console.log(jokeDIV.textContent)
+
     ajax.open('GET', url, true);
 
     ajax.onreadystatechange = function(){
